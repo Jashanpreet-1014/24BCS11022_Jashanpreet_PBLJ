@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - FoodExpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container main-content py-5">
+    <h2 class="fw-bold mb-4">My Orders</h2>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+        <span th:text="${errorMessage}">Error</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${#lists.isEmpty(orders)}" class="card p-5 text-center shadow-sm">
+        <div class="fs-1 text-muted mb-2">📦</div>
+        <h4 class="fw-bold text-muted">No orders found</h4>
+        <p class="text-muted">You haven't placed any orders yet.</p>
+        <div>
+            <a th:href="@{/customer/menu}" class="btn btn-danger mt-2 px-4 py-2">Order Food Now</a>
+        </div>
+    </div>
+
+    <div class="card p-4 shadow-sm" th:if="${!#lists.isEmpty(orders)}">
+        <div class="table-responsive">
+            <table class="table align-middle table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Order #</th>
+                    <th>Order Date</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td class="fw-bold" th:text="'#' + ${order.id}">#1</td>
+                    <td th:text="${#temporals.format(order.orderDate, 'dd-MMM-yyyy HH:mm')}">Date</td>
+                    <td>
+                        <span class="badge bg-secondary" th:text="${order.orderItems.size() + ' item(s)'}">1 items</span>
+                    </td>
+                    <td class="fw-bold text-success" th:text="'₹' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">₹0.00</td>
+                    <td>
+                        <span class="badge py-2 px-3"
+                              th:classappend="'badge-status-' + ${order.status}"
+                              th:text="${order.status}">PENDING</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/customer/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-danger">View Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

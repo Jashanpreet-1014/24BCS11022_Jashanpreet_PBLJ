@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - FoodExpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container main-content py-5">
+    <div class="card bg-custom-dark text-white p-4 mb-4 shadow">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h2 class="fw-bold mb-1">Welcome back, <span th:text="${user.fullName}">Customer</span>! 👋</h2>
+                <p class="text-white-50 mb-0">What would you like to eat today?</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/customer/menu}" class="btn btn-danger btn-lg px-4 fw-semibold">Browse Menu</a>
+                <a th:href="@{/customer/cart}" class="btn btn-outline-light btn-lg px-4">View Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 p-3 text-center">
+                <div class="fs-1 text-danger mb-2">🍽️</div>
+                <h5 class="fw-bold">Explore Menu</h5>
+                <p class="text-muted small">Check out our fresh & delicious food items</p>
+                <a th:href="@{/customer/menu}" class="btn btn-outline-danger btn-sm mt-auto">Go to Menu</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-3 text-center">
+                <div class="fs-1 text-warning mb-2">🛒</div>
+                <h5 class="fw-bold">My Cart</h5>
+                <p class="text-muted small">View items in your cart and proceed to checkout</p>
+                <a th:href="@{/customer/cart}" class="btn btn-outline-warning btn-sm mt-auto text-dark">View Cart</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-3 text-center">
+                <div class="fs-1 text-primary mb-2">📦</div>
+                <h5 class="fw-bold">Order History</h5>
+                <p class="text-muted small">Track your previous orders and current status</p>
+                <a th:href="@{/customer/orders}" class="btn btn-outline-primary btn-sm mt-auto">View Orders</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Section -->
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Recent Orders</h4>
+            <a th:href="@{/customer/orders}" class="text-danger fw-semibold text-decoration-none">View All →</a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(recentOrders)}" class="text-center py-4 text-muted">
+            <p class="mb-0">You haven't placed any orders yet.</p>
+        </div>
+
+        <div class="table-responsive" th:if="${!#lists.isEmpty(recentOrders)}">
+            <table class="table align-middle table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${recentOrders}">
+                    <td class="fw-bold" th:text="'#' + ${order.id}">#1</td>
+                    <td th:text="${#temporals.format(order.orderDate, 'dd-MMM-yyyy HH:mm')}">Date</td>
+                    <td class="fw-bold text-success" th:text="'₹' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}">₹0.00</td>
+                    <td>
+                        <span class="badge py-2 px-3"
+                              th:classappend="'badge-status-' + ${order.status}"
+                              th:text="${order.status}">PENDING</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/customer/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-dark">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

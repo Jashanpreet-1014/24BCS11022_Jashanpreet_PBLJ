@@ -1,0 +1,79 @@
+/* Custom Styles for Restaurant Ordering System */
+
+:root {
+    --primary-color: #e63946;
+    --primary-hover: #c82333;
+    --dark-bg: #1d3557;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f4f6f8;
+    color: #2b2d42;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    color: var(--primary-color) !important;
+}
+
+.bg-custom-dark {
+    background-color: #1d3557;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow);
+}
+
+.food-img {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.badge-status-PENDING { background-color: #ffc107; color: #000; }
+.badge-status-CONFIRMED { background-color: #17a2b8; color: #fff; }
+.badge-status-PREPARING { background-color: #fd7e14; color: #fff; }
+.badge-status-OUT_FOR_DELIVERY { background-color: #6f42c1; color: #fff; }
+.badge-status-DELIVERED { background-color: #28a745; color: #fff; }
+.badge-status-CANCELLED { background-color: #dc3545; color: #fff; }
+
+.stat-card {
+    border-left: 5px solid var(--primary-color);
+}
+
+.stat-card-users { border-left-color: #4e73df; }
+.stat-card-foods { border-left-color: #1cc88a; }
+.stat-card-orders { border-left-color: #36b9cc; }
+.stat-card-pending { border-left-color: #f6c23e; }
